@@ -1,5 +1,7 @@
 # SSAT · Simulador académico del portal del SAT
 
+**Demo:** https://ssat-smoky.vercel.app · **Repositorio:** https://github.com/edelpinovs/ssat
+
 Simulador web para que estudiantes de Contaduría practiquen trámites fiscales (inscripción y obligaciones, pagos provisionales, declaración anual y citas) con contribuyentes ficticios y retroalimentación normativa inmediata.
 
 > **Simulador académico.** No es el portal del SAT, no se conecta a servicios del SAT y no usa logotipos oficiales. Todos los RFC, nombres, montos y acuses son ficticios y carecen de validez fiscal.
@@ -15,6 +17,7 @@ Pre-arranque (nov 2026 – feb 2027). Convocatoria de fomento a la investigació
 | Backlog inicial | [`docs/03-backlog.md`](docs/03-backlog.md) · [`backlog/backlog.csv`](backlog/backlog.csv) |
 | Especificación de flujos del portal real | `docs/levantamiento/` (capturas y textos del 12-nov-2026) |
 | Prototipo navegable | Claude Design: *SSAT · Prototipo del Simulador SAT* |
+| Demo desplegada (frontend) | https://ssat-smoky.vercel.app (Vercel, rama `main`) |
 
 ## Estructura del repositorio
 
@@ -35,7 +38,7 @@ ssat/
 
 ## Arranque rápido (desarrollo)
 
-Requisitos: Node 22, pnpm 10, Docker. Despliegue de demostración del frontend en Vercel (Root Directory = raíz del repo; usa `vercel.json`).
+Requisitos: Node 22, pnpm 10, Docker. Despliegue de demostración del frontend en Vercel: cada push a `main` publica en https://ssat-smoky.vercel.app (Root Directory = raíz del repo; usa `vercel.json`).
 
 ```bash
 pnpm install
