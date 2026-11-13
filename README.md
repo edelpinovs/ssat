@@ -35,7 +35,7 @@ ssat/
 
 ## Arranque rápido (desarrollo)
 
-Requisitos: Node 22, pnpm 9, Docker.
+Requisitos: Node 22, pnpm 10, Docker. Despliegue de demostración del frontend en Vercel (Root Directory = raíz del repo; usa `vercel.json`).
 
 ```bash
 pnpm install

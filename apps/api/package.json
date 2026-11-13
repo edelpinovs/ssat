@@ -2,11 +2,10 @@
   "name": "api",
   "private": true,
   "scripts": {
-    "dev": "nest start --watch",
-    "build": "nest build",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "seed": "ts-node prisma/seed.ts"
+    "dev": "echo \"api: pendiente de E0-04 (sprint 1)\"",
+    "lint": "echo \"api: sin código aún\"",
+    "typecheck": "echo \"api: sin código aún\"",
+    "test": "echo \"api: sin pruebas aún\"",
+    "seed": "echo \"api: pendiente\""
   }
 }
