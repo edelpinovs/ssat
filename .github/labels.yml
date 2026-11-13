@@ -1,0 +1,24 @@
+- {name: epic, color: "7a1b3c", description: Épica del backlog}
+- {name: historia, color: "c9a86a", description: Historia de usuario}
+- {name: bug, color: "d73a4a"}
+- {name: pantalla, color: "0e8a16", description: Réplica de pantalla del portal}
+- {name: reglas, color: "1d76db", description: Motor de reglas y tarifas}
+- {name: contenido, color: "5319e7", description: Requiere a Contaduría}
+- {name: contenido-validado, color: "0052cc", description: Textos y fundamentos aprobados}
+- {name: web, color: "bfdadc"}
+- {name: api, color: "c2e0c6"}
+- {name: datos, color: "fef2c0"}
+- {name: pdf, color: "e4e669"}
+- {name: infra, color: "cccccc"}
+- {name: ci, color: "cccccc"}
+- {name: dx, color: "cccccc"}
+- {name: qa, color: "f9d0c4"}
+- {name: docs, color: "d4c5f9"}
+- {name: seguridad, color: "b60205"}
+- {name: diseño, color: "fbca04"}
+- {name: piloto, color: "006b75"}
+- {name: investigación, color: "006b75"}
+- {name: legal, color: "000000"}
+- {name: "prioridad: alta", color: "b60205"}
+- {name: "prioridad: media", color: "fbca04"}
+- {name: "prioridad: baja", color: "0e8a16"}

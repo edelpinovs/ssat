@@ -1,0 +1,22 @@
+name: Pantalla a replicar
+description: Réplica de una pantalla del portal real con su captura
+labels: [pantalla, web]
+body:
+  - type: input
+    id: nombre
+    attributes: { label: Nombre de la pantalla, placeholder: "Aviso de obligaciones · Paso 2 cuestionario" }
+    validations: { required: true }
+  - type: input
+    id: url
+    attributes: { label: URL del portal real }
+  - type: textarea
+    id: capturas
+    attributes: { label: Capturas y textos de referencia (rutas en docs/levantamiento o adjuntos) }
+    validations: { required: true }
+  - type: textarea
+    id: campos
+    attributes: { label: Campos, validaciones y botones (en orden) }
+    validations: { required: true }
+  - type: dropdown
+    id: tema
+    attributes: { label: Tema visual, options: [portal (oscuro/dorado), clásico (guinda), login SIAT] }

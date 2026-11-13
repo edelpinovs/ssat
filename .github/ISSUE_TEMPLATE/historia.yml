@@ -1,0 +1,25 @@
+name: Historia de usuario
+description: Funcionalidad del simulador vista por alumno, profesor, editor o admin
+labels: [historia]
+body:
+  - type: input
+    id: id
+    attributes: { label: ID del backlog, placeholder: E2-03 }
+  - type: textarea
+    id: historia
+    attributes:
+      label: Historia
+      value: "Como <rol>, quiero <acción> para <objetivo>."
+    validations: { required: true }
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceptación
+      value: "- [ ] Dado … cuando … entonces …"
+    validations: { required: true }
+  - type: input
+    id: captura
+    attributes: { label: Pantalla de referencia del portal real, placeholder: docs/levantamiento/01_….jpg }
+  - type: dropdown
+    id: puntos
+    attributes: { label: Estimación (puntos), options: ["1", "2", "3", "5", "8", "13"] }

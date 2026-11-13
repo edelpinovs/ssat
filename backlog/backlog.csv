@@ -1,0 +1,74 @@
+id,epic,titulo,descripcion,prioridad,puntos,sprint,etiquetas
+E0,E0 Infraestructura y base,Epic: Infraestructura y base del proyecto,"Repositorio, CI/CD, Docker, modelo de datos, autenticación institucional y sistema de diseño SSAT.",Alta,,0,epic
+E0-01,E0 Infraestructura y base,Configurar monorepo (pnpm workspaces) con apps/web apps/api y packages,"Estructura, scripts raíz, ESLint, Prettier, TypeScript estricto, editorconfig.",Alta,3,0,"infra,dx"
+E0-02,E0 Infraestructura y base,Docker Compose para desarrollo (web api postgres redis caddy),Levantar todo con un comando; .env.example documentado.,Alta,3,0,infra
+E0-03,E0 Infraestructura y base,Pipeline de CI en GitHub Actions,"Lint, typecheck, pruebas unitarias y e2e en cada PR; build de imágenes en main.",Alta,5,0,"infra,ci"
+E0-04,E0 Infraestructura y base,Esquema Prisma del dominio v1,"Contribuyente, Credenciales, Usuario, Grupo, Escenario, Intento, Tramite, Declaracion, ReglaNormativa, Tarifa.",Alta,8,1,"api,datos"
+E0-05,E0 Infraestructura y base,Autenticación institucional de alumnos y roles,"Registro con correo @alumnos.udg.mx, roles alumno/profesor/editor/admin, JWT, Argon2, rate-limit.",Alta,8,1,"api,seguridad"
+E0-06,E0 Infraestructura y base,Sistema de diseño SSAT con tres temas,"Tokens y componentes base: portal (oscuro/dorado), clásico guinda, login SIAT; banda de simulador académico; sin logotipos oficiales.",Alta,8,0,"web,diseño"
+E0-07,E0 Infraestructura y base,Generador de contribuyentes ficticios,"RFC con estructura válida y lista de exclusión, CURP ficticia, nombre, domicilio, régimen y obligaciones iniciales; semilla reproducible.",Alta,8,1,"api,datos"
+E0-08,E0 Infraestructura y base,Login SIAT simulado (contraseña + captcha + e.firma ficticia),"Pantallas réplica ""Acceso por contraseña"" y ""Acceso con e.firma"" (.cer/.key con Buscar, contraseña de clave privada, RFC autollenado); validaciones con respuesta normativa; archivos .cer/.key ficticios descargables.",Alta,10,2,"web,api"
+E0-09,E0 Infraestructura y base,Tablero Mi espacio SSAT,"Datos del contribuyente, obligaciones, práctica asignada, historial de acuses, tarjetas de trámites por fase.",Alta,5,2,web
+E0-10,E0 Infraestructura y base,Respaldos nocturnos y restauración probada,"Dump cifrado a almacenamiento S3-compatible, retención 90 días, runbook de restauración.",Media,3,2,infra
+E1,E1 Inscripción y obligaciones,Epic: Módulo 1 Inscripción al RFC y obligaciones,"Inscripción vía cita y formato 3/CFF, aviso de actualización de actividades y obligaciones en 4 pasos, acuses.",Alta,,3,epic
+E1-01,E1 Inscripción y obligaciones,Pantalla pública Inscripción y avisos al RFC con pestañas,"Réplica de la página de trámite: pestañas, requisitos, pasos, acordeones de información adicional.",Media,5,3,web
+E1-02,E1 Inscripción y obligaciones,Formato 3/CFF digital y solicitud de inscripción por Oficina Virtual,"Captura guiada de los 4 bloques del Formato 3/CFF (identificación, tipo de inscripción 1/2/3 e ingresos por salarios, domicilio completo, manifestación y firma); validaciones de la guía FOV (CURP 18, lada separada, correos); PDF del formato llenado; envío simulado a oficina.virtual.",Alta,10,3,"web,api"
+E1-03,E1 Inscripción y obligaciones,Sesión virtual simulada y generación de RFC,"Confirmación de cita, revisión de datos, asignación de RFC, Constancia de Situación Fiscal y acuse de inscripción en PDF.",Alta,8,4,"api,pdf"
+E1-04,E1 Inscripción y obligaciones,Aviso de obligaciones Paso 1 representante legal y fecha de movimiento,"Réplica de la pantalla capturada; autollenado al validar RFC; validación de fecha con respuesta normativa (RCFF 29, CFF 79-80).",Alta,5,5,"web,reglas"
+E1-05a,E1 Inscripción y obligaciones,Cuestionario · Tipos de ingreso (lista oficial con ayudas),"Lista jerárquica oficial de tipos de ingreso (asalariado, jubilado, servicios profesionales, rentas, negocio: RIF/agrícolas/empresarial, otros ingresos, reciclables) con tooltips de ayuda y mensajes informativos; Regresar / Reiniciar cuestionario / Continuar.",Alta,8,5,"web,api"
+E1-05b,E1 Inscripción y obligaciones,Cuestionario · Actividades económicas (grupo → actividad → forma y porcentaje),"Selección por grupo (tarjetas), lista de actividades del catálogo con clave, forma en que se realiza y porcentaje por actividad; validaciones suma = 100 % y una sola preponderante; preguntas complementarias (trabajadores, periodicidad, ubicación del patrón).",Alta,13,5,"web,api"
+E1-06,E1 Inscripción y obligaciones,Motor de obligaciones: asignación de régimen y obligaciones,"Reglas declarativas que mapean respuestas a régimen, obligaciones, periodicidad y fundamento.",Alta,13,5,reglas
+E1-07,E1 Inscripción y obligaciones,Resumen de obligaciones y acuse de movimientos,"Resumen oficial: régimen con clave, características (clave/descr./estatus Nueva-Baja), obligaciones con clave 7xx y próximo vencimiento, características eliminadas, leyenda legal, botones Regresar / Reiniciar / Guardar datos del cuestionario; acuse de movimientos de actualización de situación fiscal (2 páginas) con cadena original y sello simulados; fundamento legal como extra pedagógico.",Alta,10,6,"web,pdf"
+E1-08,E1 Inscripción y obligaciones,Suspensión y reanudación de actividades,"Reutiliza el motor; motivos, fecha, acuse.",Baja,5,16,"web,api"
+E1-09,E1 Inscripción y obligaciones,"Catálogos oficiales con clave (actividades, regímenes, obligaciones)","Importador CSV de catálogos entregados por Contaduría: actividades económicas por grupo con clave, regímenes (c_RegimenFiscal) y obligaciones 7xx con regla de próximo vencimiento; versionados por ejercicio.",Alta,8,4,"datos,reglas,contenido"
+E1-10,E1 Inscripción y obligaciones,Paso Datos de ubicación (condicional),Pestaña de domicilio que aparece cuando el trámite lo requiere; reutiliza los campos de domicilio del Formato 3/CFF con catálogo de C.P.,Media,5,6,"web,api"
+E1-11,E1 Inscripción y obligaciones,"Vista preliminar, re-autenticación y folio RF","""Aviso de actualización o modificación de situación fiscal"" con leyenda bajo protesta, Cancelar/Confirmar; re-autenticación con contraseña o e.firma; mensaje ""SU TRÁMITE HA FINALIZADO RF+13 dígitos"".",Alta,8,6,"web,api"
+E1-12,E1 Inscripción y obligaciones,Constancia de Situación Fiscal (CSF) con QR,"PDF con cédula de identificación fiscal, QR, datos de identificación, domicilio, actividades, regímenes y obligaciones; se genera en la inscripción y en cada aviso; consulta desde Mi espacio.",Alta,8,6,"pdf,api"
+E1-13,E1 Inscripción y obligaciones,"Relaciones en el cuestionario (socios, patrón, representante)",Sección Relaciones del cuestionario: RFC y tipo de relación; impacto en características del resumen.,Baja,5,16,"web,api"
+E2,E2 Pagos provisionales,Epic: Módulo 2 Declaraciones y Pagos provisionales,"Aplicativo Declaraciones y Pagos: configuración, ISR, IVA, vista previa, acuse, línea de captura, pago simulado.",Alta,,7,epic
+E2-01,E2 Pagos provisionales,Configuración de la declaración y obligaciones precargadas,"Ejercicio, periodicidad, periodo, tipo normal/complementaria; obligaciones por RFC; fecha límite.",Alta,5,7,"web,api"
+E2-02,E2 Pagos provisionales,Precarga de ingresos y deducciones desde CFDI ficticios,Generador de CFDI ficticios por escenario; visor de facturas; precarga editable.,Alta,8,7,"api,datos"
+E2-03,E2 Pagos provisionales,Calculadora ISR actividad empresarial y profesional con tarifa acumulada,"Tarifa del art. 106 LISR por ejercicio, pagos anteriores, retenciones 10 %; pruebas unitarias contra casos de Contaduría.",Alta,13,7,reglas
+E2-04,E2 Pagos provisionales,Pestaña IVA,"Trasladado, acreditable, retenido, saldo a favor, acreditamiento; reglas de consistencia (16 %, tasa 0, exentos).",Alta,8,8,"web,reglas"
+E2-05,E2 Pagos provisionales,Reglas de validación con respuesta normativa en pagos provisionales,"Deducciones atípicas, IVA inconsistente, retención > 10 %, pagos > ISR, periodo extemporáneo; mensaje + fundamento.",Alta,8,8,reglas
+E2-06,E2 Pagos provisionales,Vista previa envío con contraseña o e.firma y acuse de recibo,"Resumen por obligación, envío, número de operación, acuse PDF.",Alta,8,9,"web,api,pdf"
+E2-07,E2 Pagos provisionales,Línea de captura y pago simulado,"Formato de línea de captura, vigencia, portal bancario simulado, estado pagado/vencido, recargos y actualización.",Alta,8,9,"api,reglas"
+E2-08,E2 Pagos provisionales,Declaración complementaria,"Tipos, motivo, acreditamiento de lo pagado, nuevo acuse.",Media,8,10,"web,api"
+E2-09,E2 Pagos provisionales,Calculadora RESICO personas físicas,"Tasas sobre ingresos cobrados, límites, pérdida del régimen; pruebas.",Media,8,10,reglas
+E2-10,E2 Pagos provisionales,Calculadora arrendamiento (deducción ciega y comprobada),Mensual y trimestral; pruebas.,Media,8,10,reglas
+E2-11,E2 Pagos provisionales,Consultar declaraciones y pagos,"Listado con filtros, descarga de acuses, reimpresión de línea de captura.",Media,5,10,web
+E3,E3 Declaración anual,Epic: Módulo 3 Declaración anual de personas físicas,"Ingresos por capítulo, deducciones personales, determinación, saldo a favor/cargo, acuse.",Alta,,11,epic
+E3-01,E3 Declaración anual,Selección de tipo de declaración anual y precarga de ingresos,"Capítulos: salarios, AEP, arrendamiento, intereses, otros; precarga desde CFDI ficticios de nómina y facturas.",Alta,8,11,"web,api"
+E3-02,E3 Declaración anual,Deducciones personales con topes,"Catálogo, topes (15 % o 5 UMA anual), colegiaturas, medios de pago; reglas con fundamento LISR 151.",Alta,8,12,"web,reglas"
+E3-03,E3 Declaración anual,Calculadora anual PF con tarifa anual y subsidio,"Tarifa art. 152, acreditamientos, pagos provisionales, retenciones; pruebas con casos de Contaduría.",Alta,13,12,reglas
+E3-04,E3 Declaración anual,Saldo a favor: devolución o compensación y saldo a cargo: parcialidades,"CLABE ficticia, parcialidades hasta 6, reglas de e.firma obligatoria según monto.",Alta,8,13,"web,reglas"
+E3-05,E3 Declaración anual,Envío con e.firma ficticia y acuse anual,"Carga de .cer/.key ficticios, validación de contraseña de clave privada, acuse PDF.",Alta,8,13,"web,api,pdf"
+E3-06,E3 Declaración anual,Visores de deducciones y nómina,Visor de deducciones personales y de comprobantes de nómina del trabajador con datos ficticios.,Media,5,14,web
+E4,E4 Citas,Epic: Módulo 4 Citas,"Registro, selección de servicio y módulo, calendario, confirmación, consulta y cancelación.",Alta,,17,epic
+E4-01,E4 Citas,Registro de cita con RFC e inscripción PF,"Réplica de la pantalla capturada: acordeones, campos, validaciones de RFC y correo.",Alta,5,17,"web,api"
+E4-02,E4 Citas,Selección de servicio entidad y módulo con disponibilidad simulada,"Catálogo de servicios, módulos por estado, calendario con horarios y fila virtual.",Alta,8,17,"web,api"
+E4-03,E4 Citas,Confirmación y acuse de cita con folio y QR,"Acuse PDF, correo simulado, requisitos del servicio.",Alta,5,18,"api,pdf"
+E4-04,E4 Citas,Consulta y cancelación de cita,Por folio y RFC; reglas de cancelación; reprogramación.,Media,5,18,"web,api"
+E5,E5 Motor de reglas y contenido,Epic: Motor de reglas y panel de contenido,"Reglas declarativas versionadas, tarifas por ejercicio, panel de edición para Contaduría, bitácora.",Alta,,5,epic
+E5-01,E5 Motor de reglas y contenido,Esquema y evaluador de reglas declarativas,"JSON schema (código, condición, severidad, mensaje, fundamento, vigencia), evaluador seguro, pruebas.",Alta,13,5,reglas
+E5-02,E5 Motor de reglas y contenido,Tarifas y catálogos por ejercicio,"ISR mensual/anual, subsidio, UMA, topes; carga por ejercicio; vigencias.",Alta,5,7,"reglas,datos"
+E5-03,E5 Motor de reglas y contenido,Plantilla de captura de reglas para Contaduría,Hoja y guía para que Contaduría entregue reglas en formato importable; importador CSV.,Alta,5,1,"docs,reglas"
+E5-04,E5 Motor de reglas y contenido,Panel de contenido (editor) con historial y vista previa,"CRUD de reglas, mensajes, catálogos y tarifas; versiones; publicación; auditoría.",Alta,13,13,"web,api"
+E5-05,E5 Motor de reglas y contenido,Bitácora de intentos y eventos,"Registro de acciones, errores, acuses y tiempos por alumno y escenario; exportación.",Alta,8,15,"api,datos"
+E5-06,E5 Motor de reglas y contenido,Reglas OBL-001…005 y textos de ayuda del cuestionario,"Baja de características no reseleccionadas, suma 100 % y preponderante única, obligatorios, expiración de sesión 20 min (configurable), mensajes de ayuda e información por tipo de ingreso editables desde el panel.",Alta,5,5,"reglas,contenido"
+E6,E6 Profesor y evaluación,Epic: Panel del profesor y evaluación,"Grupos, escenarios, seguimiento de intentos, reportes.",Alta,,5,epic
+E6-01,E6 Profesor y evaluación,Grupos y alta de alumnos,"Crear grupo, importar lista CSV, códigos de acceso.",Alta,5,5,"web,api"
+E6-02,E6 Profesor y evaluación,Escenarios de práctica,Contribuyente + datos del caso + resultado esperado + rúbrica; asignación a grupo; fechas.,Alta,8,6,"web,api"
+E6-03,E6 Profesor y evaluación,Seguimiento de intentos y calificación,"Vista por alumno y por escenario, errores por intento, acuses, calificación por rúbrica.",Alta,8,15,web
+E6-04,E6 Profesor y evaluación,Reportes y exportación,"CSV/Excel de intentos, errores frecuentes por regla, métricas de piloto.",Media,5,16,"web,api"
+E7,E7 Calidad y entrega,Epic: Calidad accesibilidad y entrega,"Pruebas e2e, accesibilidad, manuales, pilotos, INDAUTOR.",Alta,,19,epic
+E7-01,E7 Calidad y entrega,Pruebas e2e de los 4 flujos con Playwright,Flujos completos de inicio a acuse con contribuyente ficticio; corren en CI.,Alta,8,18,"qa,ci"
+E7-02,E7 Calidad y entrega,Auditoría de accesibilidad WCAG 2.1 AA,"axe en CI, navegación por teclado, contraste, etiquetas; correcciones.",Alta,5,19,"qa,web"
+E7-03,E7 Calidad y entrega,Manuales de alumno profesor y administrador,Guías ilustradas y videos cortos; wiki del repositorio.,Alta,8,19,docs
+E7-04,E7 Calidad y entrega,Piloto 1 e instrumentos de medición,"Cuestionario pre/post, SUS, registro de errores por intento; análisis.",Alta,8,21,"piloto,investigación"
+E7-05,E7 Calidad y entrega,Registro INDAUTOR y empaquetado v1.0,"Expediente, versión etiquetada, instalación definitiva.",Alta,5,25,"legal,infra"
+E7-06,E7 Calidad y entrega,Piloto 2 y artículo 2,"Segundo grupo, comparación, redacción.",Media,8,27,"piloto,investigación"
+E8,E8 Fase 2 opcional,Epic: Actualización del RFC contraseña y e.firma (opcional),"Cambio de domicilio, aumento/disminución de obligaciones, generación de contraseña y e.firma simuladas.",Media,,21,epic
+E8-01,E8 Fase 2 opcional,Aviso de cambio de domicilio fiscal,"Captura de domicilio con catálogo de CP, e.firma, acuse.",Media,8,21,"web,api"
+E8-02,E8 Fase 2 opcional,Generación y renovación de contraseña,Con e.firma (captcha) y con SAT ID simulado; validador de contraseña.,Media,8,22,"web,api"
+E8-03,E8 Fase 2 opcional,Generación y renovación de e.firma simulada,"Certifica y CertiSAT simplificados: .req/.ren, .cer/.key ficticios, revocación.",Media,13,22,"web,api"

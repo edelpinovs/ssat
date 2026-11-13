@@ -1,0 +1,95 @@
+// Esquema inicial SSAT (v0) — se completa en E0-04
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+enum Rol { ALUMNO PROFESOR EDITOR ADMIN }
+
+model Usuario {
+  id        String   @id @default(uuid())
+  correo    String   @unique
+  nombre    String
+  rol       Rol      @default(ALUMNO)
+  hash      String
+  creadoEn  DateTime @default(now())
+  grupos    Grupo[]  @relation("Miembros")
+  intentos  Intento[]
+}
+
+model Grupo {
+  id        String    @id @default(uuid())
+  nombre    String
+  codigo    String    @unique
+  miembros  Usuario[] @relation("Miembros")
+  escenarios Escenario[]
+}
+
+model Contribuyente {
+  id          String   @id @default(uuid())
+  rfc         String   @unique
+  curp        String
+  nombre      String
+  regimenes   Json
+  obligaciones Json
+  domicilio   Json
+  estado      String   @default("ACTIVO")
+  intentos    Intento[]
+}
+
+model Escenario {
+  id          String   @id @default(uuid())
+  grupoId     String
+  grupo       Grupo    @relation(fields: [grupoId], references: [id])
+  titulo      String
+  tramite     String
+  datos       Json
+  esperado    Json
+  rubrica     Json?
+  intentos    Intento[]
+}
+
+model Intento {
+  id              String   @id @default(uuid())
+  usuarioId       String
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  escenarioId     String
+  escenario       Escenario @relation(fields: [escenarioId], references: [id])
+  contribuyenteId String
+  contribuyente   Contribuyente @relation(fields: [contribuyenteId], references: [id])
+  acciones        Json
+  errores         Json
+  acuses          Acuse[]
+  iniciadoEn      DateTime @default(now())
+  terminadoEn     DateTime?
+}
+
+model Acuse {
+  id          String   @id @default(uuid())
+  intentoId   String
+  intento     Intento  @relation(fields: [intentoId], references: [id])
+  tipo        String
+  folio       String   @unique
+  contenido   Json
+  pdfUrl      String?
+  creadoEn    DateTime @default(now())
+}
+
+model ReglaNormativa {
+  id         String   @id @default(uuid())
+  codigo     String   @unique
+  modulo     String
+  condicion  Json
+  severidad  String
+  mensaje    String
+  fundamento String
+  vigenciaDesde DateTime
+  vigenciaHasta DateTime?
+  version    Int      @default(1)
+}
+
+model Tarifa {
+  id        String @id @default(uuid())
+  ejercicio Int
+  tipo      String
+  tramos    Json
+  @@unique([ejercicio, tipo])
+}

@@ -1,0 +1,30 @@
+name: Regla normativa
+description: Alta o cambio de una regla, mensaje de la autoridad o tarifa (Contaduría)
+labels: [reglas, contenido]
+body:
+  - type: input
+    id: codigo
+    attributes: { label: Código, placeholder: PAG-004 }
+    validations: { required: true }
+  - type: dropdown
+    id: modulo
+    attributes: { label: Módulo, options: [acceso, inscripcion, obligaciones, pagos, anual, citas] }
+    validations: { required: true }
+  - type: textarea
+    id: condicion
+    attributes: { label: Cuándo se dispara (en palabras), placeholder: "Cuando las deducciones del periodo superan 1.5 veces los ingresos" }
+    validations: { required: true }
+  - type: textarea
+    id: mensaje
+    attributes: { label: Mensaje que vería el contribuyente }
+    validations: { required: true }
+  - type: input
+    id: fundamento
+    attributes: { label: Fundamento legal, placeholder: "LISR art. 106, último párrafo" }
+    validations: { required: true }
+  - type: textarea
+    id: sugerencia
+    attributes: { label: Sugerencia pedagógica (opcional) }
+  - type: input
+    id: vigencia
+    attributes: { label: Vigencia (ejercicio), placeholder: "2026" }

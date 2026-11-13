@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReglaNormativa",
+  "type": "object",
+  "required": [
+    "codigo",
+    "modulo",
+    "condicion",
+    "severidad",
+    "mensaje",
+    "fundamento",
+    "vigenciaDesde"
+  ],
+  "properties": {
+    "codigo": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,4}-[0-9]{3}$"
+    },
+    "modulo": {
+      "enum": [
+        "acceso",
+        "inscripcion",
+        "obligaciones",
+        "pagos",
+        "anual",
+        "citas"
+      ]
+    },
+    "condicion": {
+      "type": "object",
+      "description": "Expresión segura: {campo, op, valor} o {all:[...]} / {any:[...]}"
+    },
+    "severidad": {
+      "enum": [
+        "error",
+        "advertencia",
+        "info"
+      ]
+    },
+    "mensaje": {
+      "type": "string"
+    },
+    "fundamento": {
+      "type": "string",
+      "description": "Ley, artículo, fracción. Ej. LISR art. 106, último párrafo"
+    },
+    "sugerencia": {
+      "type": "string"
+    },
+    "vigenciaDesde": {
+      "type": "string",
+      "format": "date"
+    },
+    "vigenciaHasta": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

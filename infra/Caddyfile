@@ -1,0 +1,4 @@
+ssat.ejemplo.mx {
+  handle /api/* { reverse_proxy api:3000 }
+  handle { reverse_proxy web:80 }
+}

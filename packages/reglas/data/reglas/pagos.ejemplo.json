@@ -1,0 +1,43 @@
+[
+  {
+    "codigo": "PAG-001",
+    "modulo": "pagos",
+    "condicion": {
+      "campo": "iva.trasladado",
+      "op": "!=aprox",
+      "valor": "ingresos*0.16",
+      "tolerancia": 1
+    },
+    "severidad": "error",
+    "mensaje": "El IVA trasladado no corresponde al 16 % de los ingresos declarados.",
+    "fundamento": "LIVA art. 1 y 2-A",
+    "sugerencia": "Verifica los ingresos gravados a tasa general o indica ingresos exentos o a tasa 0 %.",
+    "vigenciaDesde": "2026-01-01"
+  },
+  {
+    "codigo": "PAG-002",
+    "modulo": "pagos",
+    "condicion": {
+      "campo": "isr.retenido",
+      "op": ">",
+      "valor": "ingresos*0.10"
+    },
+    "severidad": "error",
+    "mensaje": "El ISR retenido excede el 10 % de los ingresos del periodo.",
+    "fundamento": "LISR art. 106, último párrafo",
+    "vigenciaDesde": "2026-01-01"
+  },
+  {
+    "codigo": "PAG-003",
+    "modulo": "pagos",
+    "condicion": {
+      "campo": "deducciones",
+      "op": ">",
+      "valor": "ingresos*1.5"
+    },
+    "severidad": "advertencia",
+    "mensaje": "Las deducciones del periodo exceden de forma atípica a los ingresos.",
+    "fundamento": "LISR art. 105 y 147 fr. I; CFF art. 29 y 29-A",
+    "vigenciaDesde": "2026-01-01"
+  }
+]
