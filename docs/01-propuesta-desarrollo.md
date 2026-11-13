@@ -81,7 +81,7 @@ Monorepo con tres aplicaciones y dos paquetes compartidos:
 | `packages/reglas` | TypeScript puro | Motor de reglas y calculadoras ISR/IVA por régimen; sin dependencias de framework; probado con Vitest |
 | `packages/shared` | TypeScript | Tipos, catálogos (regímenes, obligaciones, actividades), validadores de RFC/CURP, formato de acuses |
 | `packages/pdf` | Puppeteer + plantillas HTML | Acuses, constancias, líneas de captura con sello "SIMULADOR ACADÉMICO" |
-| Infraestructura | Docker Compose, Caddy (TLS automático), GitHub Actions, respaldos nocturnos a almacenamiento S3-compatible | Despliegue en servidor de la universidad o VPS; demo continua del frontend en Vercel (https://ssat-smoky.vercel.app) |
+| Infraestructura | Docker Compose, Caddy (TLS automático), GitHub Actions, respaldos nocturnos a almacenamiento S3-compatible | Despliegue en servidor de la universidad o VPS; demo continua del frontend en Vercel (https://ssat-cuvalles.vercel.app) |
 
 ## 4.2 Modelo de dominio (núcleo orientado a objetos)
 - `Contribuyente` (RFC, CURP, nombre, domicilio, regímenes[], obligaciones[], mediosContacto, estado) · `Credenciales` (contraseña, e.firma ficticia, vigencias).
