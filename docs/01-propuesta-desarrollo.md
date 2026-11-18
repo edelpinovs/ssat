@@ -46,13 +46,14 @@ Se modela como la secuencia real del SAT (decisión D-1 del cotejo): primero la 
 - Requiere los catálogos oficiales con clave (actividades económicas por grupo, regímenes c_RegimenFiscal, obligaciones 7xx con regla de vencimiento) que entrega Contaduría.
 
 ## 3.3 Módulo 2 · Pagos provisionales (aplicativo "Declaraciones y Pagos")
-- Configuración: ejercicio, periodicidad, periodo, tipo (normal/complementaria), obligaciones precargadas por RFC.
-- Pestañas ISR (ingresos precargados de CFDI ficticios, deducciones, determinación con tarifa acumulada art. 106 LISR, pagos anteriores, retenciones), IVA (trasladado, acreditable, retenido, saldo a favor), Pago (a cargo / a favor, compensación).
-- Vista previa, envío con contraseña o e.firma, acuse de recibo y línea de captura con vigencia; pago simulado; recargos y actualización si vence.
+- Flujo oficial según las guías del SAT (envío 02 de Contaduría, decisión D-5): menú Presentar declaración / Consultas / Presentación declaración otras obligaciones → configuración (ejercicio, periodicidad, periodo, tipo normal/complementaria, obligaciones del RFC activables, mensaje de fuentes y fecha de corte) → **Administración de la declaración** (vencimiento y una tarjeta por obligación con su total).
+- **Un formulario por obligación**: ISR actividad empresarial y profesional (Ingresos, Deducciones autorizadas, Determinación con PTU, pérdidas y tarifa acumulada del Anexo 8 RMF, Pago, Datos adicionales de copropiedad), **IVA personas físicas** (IVA a cargo por tasa, IVA acreditable con proporción art. 5 / 5-B, Determinación, Pago) y RESICO (tabla de tasas mensual, exención del sector primario). Ventanas de captura, visores *Ver detalle*, compensaciones y bloque Pago como componentes comunes.
+- Vista previa en PDF, Enviar declaración con confirmación (sin re-autenticación), acuse de recibo con número de operación y línea de captura con vigencia; pago simulado; recargos y actualización si es extemporánea.
+- Fuera del MVP salvo decisión de Contaduría (D-4): estímulos de región fronteriza, Plan México, Decreto de Relocalización y deducción inmediata.
 - Regímenes del MVP: Actividades empresariales y profesionales, RESICO, Arrendamiento; Sueldos (solo retenciones) opcional.
 
 ## 3.4 Módulo 3 · Declaración anual
-- Selección de tipo de declaración, ingresos por capítulo precargados (nómina y facturas ficticias), deducciones personales con topes, determinación anual, subsidio, saldo a favor/a cargo, pago en parcialidades o devolución (CLABE ficticia), envío con e.firma cuando aplique, acuse.
+- Configuración (ejercicio, tipo, periodo, ingresos a declarar bloqueados si hay precarga, extranjero, ISSIF), ingresos por capítulo precargados: **sueldos y asimilados** (aceptar o rechazar por retenedor; primer escenario, decisión D-6) y **arrendamiento** (deducción opcional 35 % o comprobable más predial); deducciones personales con contadores, "Sin clasificación" y tope; determinación con tarifa art. 152 y subsidio; datos informativos; saldo a favor (devolución con CLABE de 18 dígitos o compensación) o a cargo (parcialidades hasta 6); envío con e.firma solo con saldo a favor ≥ $10,001; acuse con línea de captura.
 
 ## 3.5 Módulo 4 · Citas
 - Registro de cita (con RFC / inscripción PF), selección de servicio, entidad y módulo, calendario con disponibilidad simulada, confirmación, acuse con folio y QR, correo simulado, consulta y cancelación.
@@ -86,7 +87,7 @@ Monorepo con tres aplicaciones y dos paquetes compartidos:
 ## 4.2 Modelo de dominio (núcleo orientado a objetos)
 - `Contribuyente` (RFC, CURP, nombre, domicilio, regímenes[], obligaciones[], mediosContacto, estado) · `Credenciales` (contraseña, e.firma ficticia, vigencias).
 - `Tramite` (abstracta: pasos[], validar(), avanzar(), generarAcuse()) → `InscripcionRFC`, `AvisoObligaciones`, `PagoProvisional`, `DeclaracionAnual`, `Cita`, `ActualizacionRFC`, `GeneracionEFirma`.
-- `Declaracion` (periodo, régimen, conceptos, cálculo, lineaCaptura, estado) · `Calculo` (estrategia por régimen: `CalculadoraAEP`, `CalculadoraRESICO`, `CalculadoraArrendamiento`, `CalculadoraAnualPF`).
+- `Declaracion` (obligación, periodo, régimen, tipo normal/complementaria, conceptos, cálculo, número de operación, versión, lineaCaptura, estado presentada/pagada/pagada en cero) · `CFDI` (tipo, método y forma de pago, uso, tasas, retenciones, nómina) para la precarga · `Calculo` (estrategia por régimen: `CalculadoraAEP`, `CalculadoraRESICO`, `CalculadoraArrendamiento`, `CalculadoraAnualPF`).
 - `ReglaNormativa` (código, condición, severidad, mensaje, fundamento, vigencia) · `Tarifa` (ejercicio, tramos).
 - `Escenario` (contribuyente, datos del caso, resultado esperado, rúbrica) · `Intento` (alumno, escenario, acciones[], errores[], acuses[], tiempo, calificación).
 - `Usuario` (alumno | profesor | editor | admin) · `Grupo`.
@@ -115,11 +116,12 @@ Monorepo con tres aplicaciones y dos paquetes compartidos:
 | 1–2 | mar 2027 | Modelo de datos, autenticación institucional, generador de contribuyentes, login SIAT simulado, Mi espacio |
 | 3–4 | abr 2027 | Módulo 1: inscripción por Oficina Virtual (Formato 3/CFF digital, sesión virtual simulada), CSF, acuse; catálogos oficiales con clave importados |
 | 5–6 | may 2027 | Módulo 1: aviso de obligaciones completo (Paso 1, ubicación, cuestionario oficial, resumen con claves, vista preliminar, folio RF, acuse y CSF) + motor de reglas v1 con OBL-001…005 + panel de profesor (grupos y escenarios) |
-| 7–8 | jun 2027 | Módulo 2: configuración, ISR AEP con tarifa acumulada, pestañas ISR/IVA |
-| 9–10 | jul 2027 | Módulo 2: vista previa, acuse, línea de captura, pago simulado, complementarias; RESICO y arrendamiento |
-| 11–12 | ago 2027 | Módulo 3: anual PF ingresos y deducciones personales (entra el becario) |
-| 13–14 | sep 2027 | Módulo 3: determinación, saldo a favor/cargo, e.firma, acuse; panel de contenido para Contaduría |
-| 15–16 | oct 2027 | Carga de la base de respuestas de Contaduría; bitácora y reportes del profesor |
+| 7–8 | jun 2027 | Módulo 2: configuración y Administración de la declaración, componentes de captura, CFDI ficticios, calculadora ISR AEP |
+| 9–10 | jul 2027 | Módulo 2: formularios ISR AEP e IVA, reglas, vista previa, acuse, línea de captura y pago simulado |
+| 11 | ago 2027 | Módulo 2: RESICO, complementarias, consultas, copropiedad (entra el becario) · hito M3 |
+| 12–13 | ago–sep 2027 | Módulo 3: configuración anual, ingresos de sueldos y arrendamiento, deducciones personales, calculadora anual |
+| 14–15 | sep–oct 2027 | Módulo 3: saldo a favor/cargo, envío y acuse, visores, datos informativos; panel de contenido para Contaduría · hito M4 |
+| 16 | oct 2027 | Carga de la base de respuestas de Contaduría; bitácora y reportes del profesor; arrendamiento provisional (sujeto a la guía) |
 | 17–18 | nov 2027 | Módulo 4: citas completo; MVP integrado; pruebas e2e de los 4 flujos |
 | 19–20 | dic 2027 | Endurecimiento, accesibilidad, manuales (alumno, profesor, admin); piloto interno |
 | 21–24 | ene–feb 2028 | Piloto formal en 2 grupos; medición; correcciones; opcional: actualización del RFC y e.firma |
@@ -161,4 +163,4 @@ Monorepo con tres aplicaciones y dos paquetes compartidos:
 4. Solicitar a Contaduría los catálogos oficiales con clave (actividades por grupo, regímenes, obligaciones con regla de vencimiento), las guías oficiales de Declaraciones y Pagos, anual y citas, y un acuse y una CSF anonimizados en alta resolución.
 5. Validar con Contaduría el prototipo v0.2 (Módulo 1 completo) contra su propia guía antes del sprint 0.
 
-**Backlog comprometido tras el cotejo:** 449 puntos (E0–E7) + 29 opcionales (E8); detalle en `docs/03-backlog.md` y `docs/04-cotejo-docs-contaduria.md`.
+**Backlog comprometido tras los cotejos:** 532 puntos (E0–E7) + 29 opcionales (E8); detalle en `docs/03-backlog.md`, `docs/04-cotejo-docs-contaduria.md` (envío 01) y `docs/05-cotejo-docs-contaduria-02.md` (envío 02).

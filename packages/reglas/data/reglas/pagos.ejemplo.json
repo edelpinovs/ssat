@@ -3,29 +3,30 @@
     "codigo": "PAG-001",
     "modulo": "pagos",
     "condicion": {
-      "campo": "iva.trasladado",
+      "campo": "iva.cargo16",
       "op": "!=aprox",
-      "valor": "ingresos*0.16",
+      "valor": "iva.actos16*0.16",
       "tolerancia": 1
     },
     "severidad": "error",
-    "mensaje": "El IVA trasladado no corresponde al 16 % de los ingresos declarados.",
-    "fundamento": "LIVA art. 1 y 2-A",
-    "sugerencia": "Verifica los ingresos gravados a tasa general o indica ingresos exentos o a tasa 0 %.",
-    "vigenciaDesde": "2026-01-01"
+    "mensaje": "El IVA a cargo a la tasa del 16 % no corresponde al 16 % del valor de los actos o actividades gravados a esa tasa.",
+    "fundamento": "LIVA art. 1",
+    "sugerencia": "Revisa qué parte de tus ingresos está gravada al 16 %, al 0 %, exenta o no es objeto del impuesto; cada una se declara en su propio renglón.",
+    "vigenciaDesde": "2025-01-01"
   },
   {
     "codigo": "PAG-002",
     "modulo": "pagos",
     "condicion": {
-      "campo": "isr.retenido",
-      "op": ">",
-      "valor": "ingresos*0.10"
+      "all": [
+        { "campo": "regimen", "op": "in", "valor": [612, 606] },
+        { "campo": "isr.retenido", "op": ">", "valor": "ingresos*0.10" }
+      ]
     },
     "severidad": "error",
     "mensaje": "El ISR retenido excede el 10 % de los ingresos del periodo.",
-    "fundamento": "LISR art. 106, último párrafo",
-    "vigenciaDesde": "2026-01-01"
+    "fundamento": "LISR art. 106, último párrafo (AEP) y art. 116, último párrafo (arrendamiento)",
+    "vigenciaDesde": "2025-01-01"
   },
   {
     "codigo": "PAG-003",
@@ -38,6 +39,20 @@
     "severidad": "advertencia",
     "mensaje": "Las deducciones del periodo exceden de forma atípica a los ingresos.",
     "fundamento": "LISR art. 105 y 147 fr. I; CFF art. 29 y 29-A",
-    "vigenciaDesde": "2026-01-01"
+    "vigenciaDesde": "2025-01-01"
+  },
+  {
+    "codigo": "PAG-004",
+    "modulo": "pagos",
+    "condicion": {
+      "all": [
+        { "campo": "regimen", "op": "==", "valor": 626 },
+        { "campo": "isr.retenido", "op": ">", "valor": "ingresos*0.0125" }
+      ]
+    },
+    "severidad": "error",
+    "mensaje": "En RESICO, el ISR retenido por personas morales excede el 1.25 % de los ingresos del periodo.",
+    "fundamento": "LISR art. 113-J (validar con Contaduría)",
+    "vigenciaDesde": "2025-01-01"
   }
 ]
