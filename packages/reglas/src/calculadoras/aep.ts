@@ -1,4 +1,7 @@
 // Calculadora ISR · Actividades empresariales y profesionales · pago provisional (LISR art. 106) — esqueleto E2-03
+// Determinación según la guía SAT de pagos provisionales AEP (abril 2026), apartado 3:
+// base gravable = ingresos − deducciones − PTU − pérdidas fiscales; impuesto causado con la tarifa acumulada (Anexo 8 RMF);
+// impuesto del periodo = causado − estímulos; impuesto a cargo = impuesto del periodo − pagos anteriores − ISR retenido.
 export type Tramo = [number, number | null, number, number];
 export interface Tarifa { ejercicio: number; tipo: string; tramos: Tramo[] }
 
@@ -11,10 +14,25 @@ export function isrSegunTarifa(base: number, tramos: Tramo[]): number {
   return t[2] + (base - t[0]) * t[3] / 100;
 }
 
-export interface EntradaAEP { ingresosAcumulados: number; deduccionesAcumuladas: number; pagosAnteriores: number; retenciones: number; tarifaMensual: Tarifa; mes: number }
+export interface EntradaAEP {
+  ingresosAcumulados: number;
+  deduccionesAcumuladas: number;
+  /** PTU acumulada a aplicar en el periodo (ya acotada a su límite). */
+  ptu?: number;
+  /** Pérdida fiscal actualizada de ejercicios anteriores aplicada en el periodo. */
+  perdidasFiscales?: number;
+  /** Estímulos al impuesto causado (fuera del MVP salvo decisión D-4). */
+  estimulos?: number;
+  pagosAnteriores: number;
+  retenciones: number;
+  tarifaMensual: Tarifa;
+  mes: number;
+}
+
 export function pagoProvisionalAEP(e: EntradaAEP) {
-  const base = Math.max(0, e.ingresosAcumulados - e.deduccionesAcumuladas);
+  const base = Math.max(0, e.ingresosAcumulados - e.deduccionesAcumuladas - (e.ptu ?? 0) - (e.perdidasFiscales ?? 0));
   const isr = base > 0 ? isrSegunTarifa(base, tarifaAcumulada(e.tarifaMensual, e.mes)) : 0;
-  const aCargo = Math.max(0, isr - e.pagosAnteriores - e.retenciones);
-  return { base, isr, aCargo };
+  const impuestoDelPeriodo = Math.max(0, isr - (e.estimulos ?? 0));
+  const aCargo = Math.max(0, impuestoDelPeriodo - e.pagosAnteriores - e.retenciones);
+  return { base, isr, impuestoDelPeriodo, aCargo };
 }
